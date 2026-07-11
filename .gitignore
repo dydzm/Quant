@@ -9,6 +9,6 @@ npm-debug.log*
 .env.*.local
 !.env.example
 
-# Local release download cache
+# Local release build artifacts and download cache
 .release-cache/
-release/*.zip
+release/

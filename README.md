@@ -34,28 +34,23 @@ Quant is built for quick market scanning:
 
 There are two practical ways to try Quant.
 
-### Option 1: Run the Checked-In Release Build
+### Option 1: Download a Release Build
 
-Clone the repository:
-
-```bash
-git clone https://github.com/eisenjimmy/Quant.git
-cd Quant
-```
+Download the platform archive from the [GitHub Releases page](https://github.com/eisenjimmy/Quant/releases), then extract it.
 
 macOS:
 
 ```bash
-open release/Quant-mac-arm64/Quant.app
+open Quant-mac-arm64/Quant.app
 ```
 
 Windows PowerShell:
 
 ```powershell
-.\release\Quant-win-x64\Quant.exe
+.\Quant-win-x64\Quant.exe
 ```
 
-Use `git clone` for the checked-in release folders. The macOS app bundle contains framework symlinks, and git preserves them correctly.
+The source repository contains no packaged binaries. Release ZIPs are published as GitHub Release assets, keeping ordinary clones small and avoiding Git LFS downloads.
 
 If macOS blocks the unsigned app, open System Settings and allow the app after the first blocked launch. The app is ad-hoc signed for local use but not Apple-notarized.
 
@@ -200,7 +195,7 @@ You can also configure this through onboarding. Saved LLM preferences are stored
 | Signal Desk | Deterministic setup classification, confidence, blockers, risk plan |
 | Quant AI | Agentic chat tab over chart, signal, news, earnings, valuation, macro context |
 | Local persistence | Watchlist, saved Quant AI insights, LLM settings |
-| Release builds | Runnable macOS and Windows folders under `release/` |
+| Release builds | macOS and Windows ZIPs published on GitHub Releases |
 
 ## Generated Showcase Visual
 
@@ -279,9 +274,6 @@ Quant/
     assets/
       screenshots/            Real app screenshots used in this README
       showcase/               Generated public repo visuals
-  release/
-    Quant-mac-arm64/          Runnable macOS app folder
-    Quant-win-x64/            Runnable Windows x64 app folder
 ```
 
 ## Architecture
@@ -308,9 +300,9 @@ The renderer does not directly call remote market endpoints. It asks the Electro
 | `npm start` | Build and launch the desktop app |
 | `npm run smoke` | Build, launch in smoke mode, and write `dist/smoke.png` |
 | `npm run smoke:modal` | Build, launch with the SPY chart modal open |
-| `npm run package:mac` | Build a runnable macOS app folder and zip archive in `release/` |
-| `npm run package:win` | Build a runnable Windows x64 app folder and zip archive in `release/` |
-| `npm run package:all` | Build macOS and Windows release folders plus zip archives |
+| `npm run package:mac` | Build a runnable macOS app folder and ZIP locally in `release/` |
+| `npm run package:win` | Build a runnable Windows app folder and ZIP locally in `release/` |
+| `npm run package:all` | Build both local release folders and ZIP archives |
 
 ## Release Packaging
 
@@ -324,7 +316,7 @@ The packager:
 4. Copies the compiled `dist/` payload.
 5. Writes a minimal runtime `package.json`.
 6. Copies `LICENSE` and `AUTHORS.md` into the packaged app.
-7. Produces runnable release folders and distributable zip archives under `release/`.
+7. Produces runnable release folders and distributable ZIP archives under the locally ignored `release/` directory.
 
 Build both release folders:
 
@@ -341,7 +333,7 @@ release/Quant-win-x64/Quant.exe
 release/Quant-win-x64.zip
 ```
 
-Distribute the zip archives or the full release folders. Do not distribute `Quant.exe` alone because it depends on adjacent Electron runtime files.
+Upload the ZIP archives as GitHub Release assets. Do not distribute `Quant.exe` alone because it depends on adjacent Electron runtime files.
 
 On machines where global `node`/`npm` is unavailable but a working Electron runtime exists, the scripts can be run through Electron's Node mode:
 
